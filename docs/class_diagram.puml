@@ -1,0 +1,36 @@
+@startuml
+
+package Services {
+
+}
+
+package HttpApiClient {
+    abstract class HttpApiClientBase {
+        - HttpClient Client
+        - string JwtSecret
+
+        # HttpApiClientBase(HttpClient httpClient, IConfiguration configuration)
+        + Task<T> GetAsync<T>()
+        + Task<T> PostAsync<T>() 
+        + abstract void SetAuthHeader()       
+    }
+} 
+
+package CatalogIngestionService {
+    class Worker <<BackgroundService>> {
+
+    }
+
+    class WorkerApiClient {
+
+        + WorkerApiClient(HttpClient httpClient, IConfiguration configuration)
+        + Task PostMoviesAsync(MovieInternalDto movie)
+        + override void SetAuthHeader()
+    }
+}
+
+
+' Relations
+HttpApiClientBase <|-- WorkerApiClient : extends
+
+@enduml
