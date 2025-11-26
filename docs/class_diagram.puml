@@ -30,7 +30,6 @@ package CatalogIngestionService {
 }
 
 
-' Relations
 HttpApiClientBase <|-- WorkerApiClient : extends
 
 @enduml
