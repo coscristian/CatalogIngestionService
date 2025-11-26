@@ -1,4 +1,3 @@
-// using CatalogIngestionService.HttpApiClient;
 using CatalogIngestionService.Models;
 
 namespace CatalogIngestionService

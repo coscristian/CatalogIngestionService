@@ -1,4 +1,3 @@
-using System.Net.Http.Headers;
 using CatalogIngestionService.Models;
 
 namespace CatalogIngestionService.Providers
@@ -11,7 +10,6 @@ namespace CatalogIngestionService.Providers
         {
             var parameters = new Dictionary<string, string>
             {
-                // ["include_adult"] = "false",
                 ["page"] = "1",
                 ["sort_by"] = "popularity.desc",
                 ["language"] = "en-US"
