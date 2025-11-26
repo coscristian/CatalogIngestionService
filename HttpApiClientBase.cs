@@ -62,11 +62,7 @@ public abstract class HttpApiClientBase
                 $"GET {apiRoute} returned empty response but type {typeof(T).Name} was expected."
             );
 
-        var result = JsonSerializer.Deserialize<T>(json, new JsonSerializerOptions
-        {
-            // PropertyNameCaseInsensitive = true,
-            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
-        });
+        var result = JsonConvert.DeserializeObject<T>(json);
 
         if (result == null)
             throw new JsonException(
