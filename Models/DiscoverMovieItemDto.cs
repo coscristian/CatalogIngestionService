@@ -29,7 +29,7 @@ public class DiscoverMovieItemDto
     public decimal Popularity { get; set; }
     
     [JsonProperty(PropertyName = "poster_path")]
-    public decimal PosterPath { get; set; }
+    public string PosterPath { get; set; } = string.Empty;
     
     [JsonProperty(PropertyName = "release_date")]
     public string ReleaseDate { get; set; } = string.Empty;
