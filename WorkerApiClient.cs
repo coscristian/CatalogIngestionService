@@ -1,5 +1,3 @@
-using CatalogIngestionService.Models;
-
 namespace CatalogIngestionService
 {
     public class WorkerApiClient //: HttpApiClientBase
