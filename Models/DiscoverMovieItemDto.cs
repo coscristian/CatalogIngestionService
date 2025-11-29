@@ -45,4 +45,6 @@ public class DiscoverMovieItemDto
     
     [JsonProperty(PropertyName = "vote_count")]
     public int VoteCount { get; set; }
+    
+    
 }
