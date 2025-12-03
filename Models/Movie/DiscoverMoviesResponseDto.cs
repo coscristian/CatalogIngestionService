@@ -1,6 +1,6 @@
 using Newtonsoft.Json;
 
-namespace CatalogIngestionService.Models
+namespace CatalogIngestionService.Models.Movie
 {
     public class DiscoverMoviesResponseDto
     {
