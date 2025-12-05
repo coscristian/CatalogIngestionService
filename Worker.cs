@@ -1,3 +1,5 @@
+using CatalogIngestionService.Models.Genre.Request;
+using CatalogIngestionService.Models.Genre.Response;
 using CatalogIngestionService.Models.Language;
 using CatalogIngestionService.Models.Language.Request;
 using CatalogIngestionService.Providers;
@@ -27,7 +29,8 @@ public class Worker : BackgroundService
                 _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
             }
 
-            await FetchLanguagesAsync();
+            //await FetchLanguagesAsync();
+            await FetchGenresAsync();
             await Task.Delay(120000, stoppingToken);
         }
     }
@@ -74,5 +77,36 @@ public class Worker : BackgroundService
                 Iso6391 = l.Iso6391
             })
             .ToList();
+    }
+    
+    private async Task FetchGenresAsync()
+    {
+        try
+        {
+            _logger.LogInformation($"Fetching genres from {_contentProvider.Name}...");
+
+            const string englishLanguage = "en";
+            var genres = await _contentProvider.FetchGenresMovieAsync(englishLanguage);
+            _logger.LogInformation($"Genres fecthed successfully from {_contentProvider.Name}");
+            
+            List<GenreMovieStreambitRequestDto> genresToIngest = TransformGenres(genres);
+            
+            _logger.LogInformation($"Ingesting genres into {_workerApiClient.ClientName}...");
+            await _workerApiClient.IngestGenres(genresToIngest);
+            _logger.LogInformation($"Genres ingested successfully into {_workerApiClient.ClientName}");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError("Error Fetching or ingesting genres: ", ex.Message);
+        }
+    }
+
+    private List<GenreMovieStreambitRequestDto> TransformGenres(GenreMovieResponseDto genres)
+    {
+        return genres.Genres.Select(genreResponse => new GenreMovieStreambitRequestDto()
+        {
+            Id = genreResponse.Id,
+            Name = genreResponse.Name
+        }).ToList();
     }
 }
